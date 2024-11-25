@@ -61,3 +61,12 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+
+# Mac stuff
+.DS_store
+
+# Jetbrains Rider IDE (C# IDE), adds a plugin to Unity
+Assets/Plugins/Editor.meta
+Assets/Plugins/Editor/Jetbrains.meta
+Assets/Plugins/Editor/Jetbrains/
+.idea
