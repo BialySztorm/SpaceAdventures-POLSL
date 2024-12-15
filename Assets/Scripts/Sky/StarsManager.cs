@@ -29,7 +29,7 @@ public class StarsManager : MonoBehaviour
     {
         m_mainCamera = Camera.main;
         transform.position = m_mainCamera.transform.position;
-        transform.parent = m_mainCamera.transform;
+        transform.parent = m_mainCamera.transform.parent.transform;
 
         m_starsRenderers = GetComponentsInChildren<ParticleSystemRenderer>();
         m_starsColourId = Shader.PropertyToID(m_starsColourProperty);
