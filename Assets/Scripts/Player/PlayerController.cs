@@ -24,6 +24,9 @@ namespace Player
         [SerializeField] private float interactionDistance = 1000.0f;
         private Renderer _leftPokePointRenderer;
         private Renderer _rightPokePointRenderer;
+        private Renderer _leftLineVisualRenderer;
+        private Renderer _rightLineVisualRenderer;
+        private Color _defaultColor;
         
 
         private void Awake()
@@ -37,23 +40,30 @@ namespace Player
                 
                 Transform leftPokePoint = leftHand.Find("Poke Interactor/Poke Point/Pinch_Pointer_LOD0");
                 if (leftPokePoint != null)
-                {
                     _leftPokePointRenderer = leftPokePoint.GetComponent<Renderer>();
-                }
                 else
-                {
                     Debug.LogError("Left PokePoint not found");
-                }
                 
                 Transform rightPokePoint = rightHand.Find("Poke Interactor/Poke Point/Pinch_Pointer_LOD0");
                 if (rightPokePoint != null)
-                {
                     _rightPokePointRenderer = rightPokePoint.GetComponent<Renderer>();
-                }
                 else
-                {
                     Debug.LogError("Right PokePoint not found");
-                }
+                
+                Transform leftLineVisual = leftHand.Find("Near-Far Interactor/LineVisual");
+                if (leftLineVisual != null)
+                    _leftLineVisualRenderer = leftLineVisual.GetComponent<Renderer>();
+                else
+                    Debug.LogError("Left LineVisual not found");
+                
+                Transform rightLineVisual = rightHand.Find("Near-Far Interactor/LineVisual");
+                if (rightLineVisual != null)
+                    _rightLineVisualRenderer = rightLineVisual.GetComponent<Renderer>();
+                else
+                    Debug.LogError("Right LineVisual not found");
+                
+                if(leftLineVisual && rightLineVisual)
+                    _defaultColor = _leftLineVisualRenderer.material.GetColor("_TintColor");
             }
             else
             {
@@ -100,11 +110,11 @@ namespace Player
                 Move(gasVal - brakeVal);
                 
                 // * Interaction
-                if (CheckForInteractable(leftHand.transform, _leftPokePointRenderer) && XRILeftHandInteractionMap["Activate"].triggered)
+                if (CheckForInteractable(leftHand.transform, _leftPokePointRenderer, _leftLineVisualRenderer) && XRILeftHandInteractionMap["Activate"].triggered)
                 {
                     Debug.Log("Left Hand Interacting");
                 }
-                if (CheckForInteractable(rightHand.transform, _rightPokePointRenderer) && XRIRightHandInteractionMap["Activate"].triggered)
+                if (CheckForInteractable(rightHand.transform, _rightPokePointRenderer, _rightLineVisualRenderer) && XRIRightHandInteractionMap["Activate"].triggered)
                 {
                     Debug.Log("Right Hand Interacting");
                 }
@@ -134,7 +144,7 @@ namespace Player
             transform.Rotate(rotation);
         }
         
-        private bool CheckForInteractable(Transform hand, Renderer _pokePointRenderer)
+        private bool CheckForInteractable(Transform hand, Renderer pokePointRenderer, Renderer lineVisualRenderer)
         {
             RaycastHit windowHit;
             if (Physics.Raycast(hand.position, hand.forward, out windowHit, interactionDistance))
@@ -149,7 +159,8 @@ namespace Player
                         {
                             // Change color to indicate interactable
                             Debug.Log("Interactable found");
-                            _pokePointRenderer.material.color = Color.green;
+                            pokePointRenderer.material.SetColor("_RimColor", Color.green);
+                            lineVisualRenderer.material.SetColor("_TintColor", Color.green);
                             return true;
                         }
                     }
@@ -157,6 +168,8 @@ namespace Player
             }
 
             // TODO Change color back to normal
+            pokePointRenderer.material.SetColor("_RimColor", _defaultColor);
+            lineVisualRenderer.material.SetColor("_TintColor", _defaultColor);
             return false;
         }
         
