@@ -112,16 +112,14 @@ namespace Player
                 // * Interaction
                 if (CheckForInteractable(leftHand.transform, _leftPokePointRenderer, _leftLineVisualRenderer) && XRILeftHandInteractionMap["Activate"].triggered)
                 {
+                    // TODO Interact with object
                     Debug.Log("Left Hand Interacting");
                 }
                 if (CheckForInteractable(rightHand.transform, _rightPokePointRenderer, _rightLineVisualRenderer) && XRIRightHandInteractionMap["Activate"].triggered)
                 {
+                    // TODO Interact with object
                     Debug.Log("Right Hand Interacting");
                 }
-                
-                
-                
-                
             }
             else
             {
@@ -157,8 +155,6 @@ namespace Player
                     {
                         if (interactableHit.collider.GetComponent<InteractableBase>())
                         {
-                            // Change color to indicate interactable
-                            Debug.Log("Interactable found");
                             pokePointRenderer.material.SetColor("_RimColor", Color.green);
                             lineVisualRenderer.material.SetColor("_TintColor", Color.green);
                             return true;
@@ -166,8 +162,7 @@ namespace Player
                     }
                 }
             }
-
-            // TODO Change color back to normal
+            
             pokePointRenderer.material.SetColor("_RimColor", _defaultColor);
             lineVisualRenderer.material.SetColor("_TintColor", _defaultColor);
             return false;
