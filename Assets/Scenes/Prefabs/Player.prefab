@@ -105,6 +105,9 @@ MonoBehaviour:
   xrInputActions: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   isXR: 1
   speed: 100
+  leftHand: {fileID: 5654075553433631652}
+  rightHand: {fileID: 5654075552636631877}
+  interactionDistance: 1000
 --- !u!1001 &4946121129073199888
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -286,6 +289,16 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9540c5616ee70bc4a94bb12790ad73e8, type: 3}
+--- !u!4 &5654075552636631877 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1460937482281674600, guid: 9540c5616ee70bc4a94bb12790ad73e8, type: 3}
+  m_PrefabInstance: {fileID: 6498981391166053421}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5654075553433631652 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1460937481803409289, guid: 9540c5616ee70bc4a94bb12790ad73e8, type: 3}
+  m_PrefabInstance: {fileID: 6498981391166053421}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6458207290257769114 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 257035532007415479, guid: 9540c5616ee70bc4a94bb12790ad73e8, type: 3}
