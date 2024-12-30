@@ -13,6 +13,7 @@ namespace Player
         [SerializeField] private float speed = 1.0f;
         [SerializeField] private Transform leftHand;
         [SerializeField] private Transform rightHand;
+        [SerializeField] private MeshCollider windowCollider;
         
         private InputActionMap XRILeftHandMap;
         private InputActionMap XRILeftHandInteractionMap;
@@ -135,16 +136,23 @@ namespace Player
         
         private bool CheckForInteractable(Transform hand, Renderer _pokePointRenderer)
         {
-            RaycastHit hit;
-            if (Physics.Raycast(hand.position, hand.forward, out hit, interactionDistance))
+            RaycastHit windowHit;
+            if (Physics.Raycast(hand.position, hand.forward, out windowHit, interactionDistance))
             {
-                // Debug.Log("Hit " + hit.collider.name);
-                if (hit.collider.GetComponent<InteractableBase>() != null)
+                if (windowHit.collider == windowCollider)
                 {
-                    // TODO Change color to indicate interactable
-                    Debug.Log("Interactable");
-                    _pokePointRenderer.material.color = Color.green;
-                    return true;
+                    Vector3 windowHitPoint = windowHit.point;
+                    RaycastHit interactableHit;
+                    if (Physics.Raycast(windowHitPoint, hand.forward, out interactableHit, interactionDistance))
+                    {
+                        if (interactableHit.collider.GetComponent<InteractableBase>())
+                        {
+                            // Change color to indicate interactable
+                            Debug.Log("Interactable found");
+                            _pokePointRenderer.material.color = Color.green;
+                            return true;
+                        }
+                    }
                 }
             }
 

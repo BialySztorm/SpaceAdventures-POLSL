@@ -107,6 +107,7 @@ MonoBehaviour:
   speed: 100
   leftHand: {fileID: 5654075553433631652}
   rightHand: {fileID: 5654075552636631877}
+  windowCollider: {fileID: 3818099857313962249}
   interactionDistance: 1000
 --- !u!1001 &4946121129073199888
 PrefabInstance:
@@ -227,6 +228,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c21c9e8b65b66c40834501d2aedda9c, type: 3}
+--- !u!64 &3818099857313962249 stripped
+MeshCollider:
+  m_CorrespondingSourceObject: {fileID: 7039811098524213402, guid: 9c21c9e8b65b66c40834501d2aedda9c, type: 3}
+  m_PrefabInstance: {fileID: 6147118212716198291}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7865941762701126106 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4064361403408814153, guid: 9c21c9e8b65b66c40834501d2aedda9c, type: 3}
