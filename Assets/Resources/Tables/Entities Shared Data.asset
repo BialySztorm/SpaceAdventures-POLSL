@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Entities Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: Entities
+  m_TableCollectionNameGuidString: 087b2f5070a3eba4082d8b3fb8800f7c
+  m_Entries:
+  - m_Id: 522552061952
+    m_Key: mercury.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 592114593792
+    m_Key: venus.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 695265112064
+    m_Key: earth.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 765062524928
+    m_Key: mars.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 779650314240
+    m_Key: jupiter.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 811225034752
+    m_Key: saturn.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 821454942208
+    m_Key: uranus.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 944452907008
+    m_Key: neptun.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 956620582912
+    m_Key: pluto.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 313168534941696
+    m_Key: sun.name
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 7538988478536089937
+  references:
+    version: 2
+    RefIds:
+    - rid: 7538988478536089937
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1735936292123
