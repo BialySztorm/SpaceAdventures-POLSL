@@ -1,5 +1,7 @@
-﻿using System;
+using System;
 using Entities;
+using UI;
+using Unity.Tutorials.Core.Editor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -22,11 +24,15 @@ namespace Player
         private InputActionMap PCMap;
         
         [SerializeField] private float interactionDistance = 1000.0f;
+        [SerializeField] private GameObject infoPanel;
+        [SerializeField] private GameObject menuPanel;
         private Renderer _leftPokePointRenderer;
         private Renderer _rightPokePointRenderer;
         private Renderer _leftLineVisualRenderer;
         private Renderer _rightLineVisualRenderer;
         private Color _defaultColor;
+
+        private GameObject _currentInfoPanel;
         
 
         private void Awake()
@@ -110,15 +116,17 @@ namespace Player
                 Move(gasVal - brakeVal);
                 
                 // * Interaction
-                if (CheckForInteractable(leftHand.transform, _leftPokePointRenderer, _leftLineVisualRenderer) && XRILeftHandInteractionMap["Activate"].triggered)
+                string interactableName = string.Empty;
+                interactableName = CheckForInteractable(leftHand.transform, _leftPokePointRenderer, _leftLineVisualRenderer);
+                if (interactableName.IsNotNullOrEmpty() && XRILeftHandInteractionMap["Activate"].triggered)
                 {
                     // TODO Interact with object
-                    Debug.Log("Left Hand Interacting");
+                    Interact(interactableName, leftHand);
                 }
-                if (CheckForInteractable(rightHand.transform, _rightPokePointRenderer, _rightLineVisualRenderer) && XRIRightHandInteractionMap["Activate"].triggered)
+                interactableName = CheckForInteractable(rightHand.transform, _rightPokePointRenderer, _rightLineVisualRenderer);
+                if (interactableName.IsNotNullOrEmpty()  && XRIRightHandInteractionMap["Activate"].triggered)
                 {
-                    // TODO Interact with object
-                    Debug.Log("Right Hand Interacting");
+                    Interact(interactableName, rightHand);
                 }
             }
             else
@@ -142,7 +150,7 @@ namespace Player
             transform.Rotate(rotation);
         }
         
-        private bool CheckForInteractable(Transform hand, Renderer pokePointRenderer, Renderer lineVisualRenderer)
+        private string CheckForInteractable(Transform hand, Renderer pokePointRenderer, Renderer lineVisualRenderer)
         {
             RaycastHit windowHit;
             if (Physics.Raycast(hand.position, hand.forward, out windowHit, interactionDistance))
@@ -153,11 +161,12 @@ namespace Player
                     RaycastHit interactableHit;
                     if (Physics.Raycast(windowHitPoint, hand.forward, out interactableHit, interactionDistance))
                     {
-                        if (interactableHit.collider.GetComponent<InteractableBase>())
+                        InteractableBase interactable = interactableHit.collider.GetComponent<InteractableBase>();
+                        if (interactable)
                         {
                             pokePointRenderer.material.SetColor("_RimColor", Color.green);
                             lineVisualRenderer.material.SetColor("_TintColor", Color.green);
-                            return true;
+                            return interactable.GetName();
                         }
                     }
                 }
@@ -165,12 +174,22 @@ namespace Player
             
             pokePointRenderer.material.SetColor("_RimColor", _defaultColor);
             lineVisualRenderer.material.SetColor("_TintColor", _defaultColor);
-            return false;
+            return string.Empty;
         }
         
-        private void Interact(RaycastHit hit)
+        private void Interact(string hit, Transform hand)
         {
-            Debug.Log("Interacting with " + hit.collider.name);
+            if(_currentInfoPanel)
+                Destroy(_currentInfoPanel);
+            GameObject infoPanelRef = Instantiate(infoPanel, transform);
+            infoPanelRef.transform.position = hand.position + hand.forward * 0.2f;
+            infoPanelRef.transform.LookAt(hand);
+            infoPanelRef.transform.Rotate(0, 180, 0);
+            StepManager stepManagerRef = infoPanelRef.transform.Find("CoachingCardRoot").GetComponent<StepManager>();
+            stepManagerRef.AddStep();
+            stepManagerRef.AddStep();
+            
+            _currentInfoPanel = infoPanelRef;
         }
 
     }

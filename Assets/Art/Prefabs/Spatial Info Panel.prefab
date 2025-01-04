@@ -758,8 +758,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Unity.VRTemplate.StepManager, Assembly-CSharp
+      - m_Target: {fileID: 8938106809642633053}
+        m_TargetAssemblyTypeName: UI.StepManager, Assembly-CSharp
         m_MethodName: Next
         m_Mode: 1
         m_Arguments:

@@ -29,12 +29,6 @@ namespace UI
         List<GameObject> m_StepIndicatorList = new List<GameObject>();
 
         int m_CurrentStepIndex = 0;
-        
-        public void Start()
-        {
-            AddStep();
-            AddStep();
-        }
 
         public void AddStep()
         {

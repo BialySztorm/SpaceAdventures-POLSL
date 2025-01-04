@@ -6,5 +6,10 @@ namespace Entities
     {
         [SerializeField, Tooltip("Name of the interactable object")]
         private string objectName = "Interactable Object";
+        
+        public string GetName()
+        {
+            return objectName;
+        }
     }
 }
