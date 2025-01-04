@@ -30,11 +30,12 @@ namespace UI
 
         int m_CurrentStepIndex = 0;
 
-        public void AddStep()
+        public void AddStep(string data)
         {
             GameObject newStep = Instantiate(m_StepObject, transform);
             newStep.name = $"Card {m_StepList.Count + 1}";
             newStep.transform.SetSiblingIndex(m_StepIndicator.GetSiblingIndex()-1);
+            newStep.GetComponentInChildren<TextMeshProUGUI>().text = data;
             GameObject newDot = Instantiate(m_DotObject, m_StepIndicator);
             newDot.name = $"Dot {m_StepList.Count + 1}";
             GameObject activeDot = newDot.transform.GetChild(0).gameObject;

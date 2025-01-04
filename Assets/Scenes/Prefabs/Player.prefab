@@ -109,6 +109,8 @@ MonoBehaviour:
   rightHand: {fileID: 5654075552636631877}
   windowCollider: {fileID: 3818099857313962249}
   interactionDistance: 1000
+  infoPanel: {fileID: 6865089299896571711, guid: b2e584e8a99f3164f9c3df3065c958ba, type: 3}
+  menuPanel: {fileID: 6181058075839259507, guid: d1aa13edf0ff03a4f963a2a32759eaf6, type: 3}
 --- !u!1001 &4946121129073199888
 PrefabInstance:
   m_ObjectHideFlags: 0

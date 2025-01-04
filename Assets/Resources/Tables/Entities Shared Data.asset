@@ -51,6 +51,10 @@ MonoBehaviour:
     m_Key: pluto.name
     m_Metadata:
       m_Items: []
+  - m_Id: 313168534941696
+    m_Key: sun.name
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

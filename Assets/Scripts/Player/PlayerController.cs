@@ -4,6 +4,7 @@ using UI;
 using Unity.Tutorials.Core.Editor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Localization;
 
 namespace Player
 {
@@ -33,6 +34,8 @@ namespace Player
         private Color _defaultColor;
 
         private GameObject _currentInfoPanel;
+        private LocalizedString _localizedEntities = new LocalizedString();
+        private LocalizedString _localizedMenu = new LocalizedString();
         
 
         private void Awake()
@@ -75,6 +78,9 @@ namespace Player
             {
                 PCMap = pcInputActions.FindActionMap("Player");
             }
+            
+            _localizedEntities.TableReference = "Entities";
+            _localizedMenu.TableReference = "UI";
         }
 
         private void OnEnable()
@@ -186,8 +192,9 @@ namespace Player
             infoPanelRef.transform.LookAt(hand);
             infoPanelRef.transform.Rotate(0, 180, 0);
             StepManager stepManagerRef = infoPanelRef.transform.Find("CoachingCardRoot").GetComponent<StepManager>();
-            stepManagerRef.AddStep();
-            stepManagerRef.AddStep();
+            _localizedEntities.TableEntryReference = hit + ".name";
+            stepManagerRef.AddStep(_localizedEntities.GetLocalizedString());
+            stepManagerRef.AddStep("");
             
             _currentInfoPanel = infoPanelRef;
         }

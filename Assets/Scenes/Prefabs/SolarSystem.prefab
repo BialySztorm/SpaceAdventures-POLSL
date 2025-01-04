@@ -290,8 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23cb75c57c034b549c48599fdcf11453, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectName: Interactable Object
-  objectDescription: This is an interactable object
+  objectName: sun
 --- !u!1 &3874758492091615955
 GameObject:
   m_ObjectHideFlags: 0
@@ -413,8 +412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac4b75f2201b4fdc9aaca18ff7339ab8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectName: Interactable Object
-  objectDescription: This is an interactable object
+  objectName: moon
   positionScale: 100000
   _semiMajorAxis: 0.3844
   _eccentricity: 0.0549
@@ -611,8 +609,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fb3608a0499480ba3bd808ceed89af3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectName: Interactable Object
-  objectDescription: This is an interactable object
+  objectName: earth
   positionScale: 100000
   semimajorAxis: 1.00000011
   eccentricity: 0.01671022
