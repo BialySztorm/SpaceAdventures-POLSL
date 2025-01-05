@@ -60,8 +60,7 @@ namespace Entities
             {
                 Vector3 position = sattelite.GetCurrentPosition(currentDateTime);
                 Quaternion rotation = sattelite.GetCurrentRotation(currentDateTime);
-                sattelite.transform.position = position;
-                sattelite.transform.rotation = rotation;
+                sattelite.SetInSpaceTransform(position, rotation);
             }
         }
 

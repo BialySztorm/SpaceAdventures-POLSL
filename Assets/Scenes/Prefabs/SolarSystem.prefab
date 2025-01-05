@@ -44,7 +44,7 @@ Light:
   serializedVersion: 11
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 100000
+  m_Intensity: 1000000
   m_Range: 1000000
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -1075,7 +1075,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectName: moon
-  positionScale: 100000
+  positionScale: 10000
   _semiMajorAxis: 0.3844
   _eccentricity: 0.0549
   _inclination: 5.145
@@ -1861,7 +1861,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectName: deimos
-  positionScale: 100000
+  positionScale: 10000
   _semiMajorAxis: 0.023459
   _eccentricity: 0.0005
   _inclination: 1.79
@@ -1992,7 +1992,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectName: Phobos
-  positionScale: 100000
+  positionScale: 10000
   _semiMajorAxis: 0.009378
   _eccentricity: 0.0151
   _inclination: 1.08
