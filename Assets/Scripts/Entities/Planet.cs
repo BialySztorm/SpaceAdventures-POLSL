@@ -85,8 +85,8 @@ namespace Entities
 
             // Calculate heliocentric coordinates
             double x = r * (math.cos(longitudeOfAscendingNode) * math.cos(nu + argumentOfPerihelion) - math.sin(longitudeOfAscendingNode) * math.sin(nu + argumentOfPerihelion) * math.cos(inclination));
-            double y = r * (math.sin(longitudeOfAscendingNode) * math.cos(nu + argumentOfPerihelion) + math.cos(longitudeOfAscendingNode) * math.sin(nu + argumentOfPerihelion) * math.cos(inclination));
-            double z = r * (math.sin(nu + argumentOfPerihelion) * math.sin(inclination));
+            double z = r * (math.sin(longitudeOfAscendingNode) * math.cos(nu + argumentOfPerihelion) + math.cos(longitudeOfAscendingNode) * math.sin(nu + argumentOfPerihelion) * math.cos(inclination));
+            double y = r * (math.sin(nu + argumentOfPerihelion) * math.sin(inclination));
 
             return new Vector3((float)x / positionScale, (float)y / positionScale, (float)z / positionScale);
         }
