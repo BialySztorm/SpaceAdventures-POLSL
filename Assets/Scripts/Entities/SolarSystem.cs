@@ -8,6 +8,9 @@ namespace Entities
     {
         private Planet[] planets;
         
+        [SerializeField]
+        private float positionScale = 10000.0f;
+        
         
         private void Start()
         {
@@ -17,7 +20,7 @@ namespace Entities
             {
                 Vector3 position = planet.GetCurrentPosition(currentDateTime);
                 Quaternion rotation = planet.GetCurrentRotation(currentDateTime);
-                planet.transform.position = position;
+                planet.transform.position = position/positionScale;
                 planet.transform.rotation = rotation;
             }
             
@@ -39,6 +42,11 @@ namespace Entities
                 Quaternion rotation = planet.GetCurrentRotation(currentDateTime);
                 planet.transform.rotation = rotation;
             }
+        }
+        
+        public float GetPositionScale()
+        {
+            return positionScale;
         }
     }
 }

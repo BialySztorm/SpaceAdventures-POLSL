@@ -8,9 +8,6 @@ namespace Entities
     {
         private const double Deg2Rad = math.PI / 180.0;
         private const double EpochJ2000 = 2451545.0; // Reference epoch
-        
-        [SerializeField]
-        private float positionScale = 10000.0f;
 
         // Default orbital parameters for the Moon
         [SerializeField, Tooltip("Semi-major axis in km to power of 6")]
@@ -83,7 +80,7 @@ namespace Entities
             double z = r * (math.sin(_longitudeOfAscendingNode) * math.cos(nu + _argumentOfPerihelion) + math.cos(_longitudeOfAscendingNode) * math.sin(nu + _argumentOfPerihelion) * math.cos(_inclination));
             double y = r * (math.sin(nu + _argumentOfPerihelion) * math.sin(_inclination));
 
-            return new Vector3((float)x / positionScale, (float)y / positionScale, (float)z / positionScale);
+            return new Vector3((float)x, (float)y, (float)z);
         }
 
         public Quaternion GetCurrentRotation(double julianDate)
