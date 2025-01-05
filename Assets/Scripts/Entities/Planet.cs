@@ -11,8 +11,7 @@ namespace Entities
         private const double Deg2Rad = math.PI / 180.0;
         private const double EpochJ2000 = 2451545.0; // Reference epoch
         
-        [SerializeField]
-        private float positionScale = 100000.0f;
+        
 
 
         // Default variables for Earth
@@ -39,8 +38,11 @@ namespace Entities
         [SerializeField, Tooltip("Declination rate per Julian century (second value)")]
         private double declinationRate = 0.005;
         
+        private float _positionScale = 10000.0f;
+        
         private void Awake()
         {
+            _positionScale = GetComponentInParent<SolarSystem>().GetPositionScale();
             // Transform default values
             semimajorAxis = semimajorAxis * AU; // Convert to km
             inclination = inclination * Deg2Rad; // Convert to radians
@@ -60,8 +62,7 @@ namespace Entities
             {
                 Vector3 position = sattelite.GetCurrentPosition(currentDateTime);
                 Quaternion rotation = sattelite.GetCurrentRotation(currentDateTime);
-                sattelite.transform.position = position;
-                sattelite.transform.rotation = rotation;
+                sattelite.SetInSpaceTransform(position/_positionScale*50, rotation);
             }
         }
 
@@ -85,10 +86,10 @@ namespace Entities
 
             // Calculate heliocentric coordinates
             double x = r * (math.cos(longitudeOfAscendingNode) * math.cos(nu + argumentOfPerihelion) - math.sin(longitudeOfAscendingNode) * math.sin(nu + argumentOfPerihelion) * math.cos(inclination));
-            double y = r * (math.sin(longitudeOfAscendingNode) * math.cos(nu + argumentOfPerihelion) + math.cos(longitudeOfAscendingNode) * math.sin(nu + argumentOfPerihelion) * math.cos(inclination));
-            double z = r * (math.sin(nu + argumentOfPerihelion) * math.sin(inclination));
+            double z = r * (math.sin(longitudeOfAscendingNode) * math.cos(nu + argumentOfPerihelion) + math.cos(longitudeOfAscendingNode) * math.sin(nu + argumentOfPerihelion) * math.cos(inclination));
+            double y = r * (math.sin(nu + argumentOfPerihelion) * math.sin(inclination));
 
-            return new Vector3((float)x / positionScale, (float)y / positionScale, (float)z / positionScale);
+            return new Vector3((float)x, (float)y, (float)z);
         }
 
         public Quaternion GetCurrentRotation(double julianDate)
