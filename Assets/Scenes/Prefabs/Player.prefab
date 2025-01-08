@@ -104,7 +104,7 @@ MonoBehaviour:
   pcInputActions: {fileID: -944628639613478452, guid: c5d86350ebb5d384ba4f4837c1d7847d, type: 3}
   xrInputActions: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   isXR: 1
-  acceleration: 0.1
+  acceleration: 0.01
   maxSpeed: 10
   leftHand: {fileID: 5654075553433631652}
   rightHand: {fileID: 5654075552636631877}
