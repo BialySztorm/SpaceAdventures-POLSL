@@ -125,7 +125,7 @@ namespace Player
                 Rotate(leftStick, rightStick);
                 float brakeVal = XRILeftHandInteractionMap["Select Value"].ReadValue<float>();
                 float gasVal = XRIRightHandInteractionMap["Select Value"].ReadValue<float>();
-                Move(gasVal - brakeVal);
+                Move(gasVal - brakeVal*2f);
                 
                 // * Interaction
                 string interactableName = string.Empty;
@@ -204,7 +204,7 @@ namespace Player
             infoPanelRef.transform.LookAt(hand);
             infoPanelRef.transform.Rotate(0, 180, 0);
             Vector3 localPos = infoPanelRef.transform.localPosition;
-            localPos.y -= 0.5f;
+            localPos.y -= 0.2f;
             infoPanelRef.transform.localPosition = localPos;
             Vector3 localEuler = infoPanelRef.transform.localEulerAngles;
             localEuler.z = 0f;
