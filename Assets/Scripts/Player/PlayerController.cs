@@ -179,7 +179,6 @@ namespace Player
                     RaycastHit interactableHit;
                     if (Physics.Raycast(hand.position, hand.forward, out interactableHit, interactionDistance,  interactionsRaycastLayer))
                     {
-                        Debug.LogWarning(interactableHit.collider.name);  
                         InteractableBase interactable = interactableHit.collider.GetComponent<InteractableBase>();
                         if (interactable)
                         {
