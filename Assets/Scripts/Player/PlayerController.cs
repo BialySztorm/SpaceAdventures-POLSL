@@ -202,6 +202,13 @@ namespace Player
             infoPanelRef.transform.position = hand.position + hand.forward * 0.2f;
             infoPanelRef.transform.LookAt(hand);
             infoPanelRef.transform.Rotate(0, 180, 0);
+            Vector3 localPos = infoPanelRef.transform.localPosition;
+            localPos.y -= 0.5f;
+            infoPanelRef.transform.localPosition = localPos;
+            Vector3 localEuler = infoPanelRef.transform.localEulerAngles;
+            localEuler.z = 0f;
+            infoPanelRef.transform.localEulerAngles = localEuler;
+            
             StepManager stepManagerRef = infoPanelRef.transform.Find("CoachingCardRoot").GetComponent<StepManager>();
             _localizedEntities.TableEntryReference = hit + ".name";
             stepManagerRef.AddStep(_localizedEntities.GetLocalizedString());
