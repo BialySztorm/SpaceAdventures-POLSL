@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3818556807174777686}
   - component: {fileID: 1175594229362971784}
   - component: {fileID: 7039811098524213402}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WindowCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
