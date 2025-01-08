@@ -1,4 +1,5 @@
 using System;
+using Player;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 
@@ -30,6 +31,14 @@ namespace Entities
                 Vector3 tmpPos = planets[2].transform.position;
                 tmpPos.x += 100.0f*transform.localScale.x;
                 player.transform.position = tmpPos;
+                XROrigin playerRef = player.GetComponentInChildren<XROrigin>();
+                if (playerRef != null)
+                {
+                    Vector3 tmpPos2 = player.transform.position;
+                    tmpPos2.y += 0.675f;
+                    tmpPos2.z += 0.25f;
+                    playerRef.MoveCameraToWorldLocation(tmpPos2);
+                }
             }
             
         }
