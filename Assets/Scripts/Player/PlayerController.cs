@@ -161,6 +161,14 @@ namespace Player
         
         private string CheckForInteractable(Transform hand, Renderer pokePointRenderer, Renderer lineVisualRenderer)
         {
+
+            if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            {
+                pokePointRenderer.material.SetColor("_RimColor", _defaultColor);
+                lineVisualRenderer.material.SetColor("_TintColor", _defaultColor);
+                return string.Empty;
+            }
+
             RaycastHit windowHit;
             if (Physics.Raycast(hand.position, hand.forward, out windowHit, interactionDistance))
             {
