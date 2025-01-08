@@ -104,11 +104,17 @@ MonoBehaviour:
   pcInputActions: {fileID: -944628639613478452, guid: c5d86350ebb5d384ba4f4837c1d7847d, type: 3}
   xrInputActions: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   isXR: 1
-  acceleration: 0.1
+  acceleration: 0.01
   maxSpeed: 10
   leftHand: {fileID: 5654075553433631652}
   rightHand: {fileID: 5654075552636631877}
   windowCollider: {fileID: 3818099857313962249}
+  windowRaycastLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  interactionsRaycastLayer:
+    serializedVersion: 2
+    m_Bits: 128
   interactionDistance: 1000
   infoPanel: {fileID: 6865089299896571711, guid: b2e584e8a99f3164f9c3df3065c958ba, type: 3}
   menuPanel: {fileID: 6181058075839259507, guid: d1aa13edf0ff03a4f963a2a32759eaf6, type: 3}

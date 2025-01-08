@@ -19,6 +19,8 @@ namespace Player
         [SerializeField] private Transform leftHand;
         [SerializeField] private Transform rightHand;
         [SerializeField] private MeshCollider windowCollider;
+        [SerializeField] private LayerMask windowRaycastLayer;
+        [SerializeField] private LayerMask interactionsRaycastLayer;
         
         private float _currentSpeed = 0.0f;
         
@@ -170,14 +172,14 @@ namespace Player
             }
 
             RaycastHit windowHit;
-            if (Physics.Raycast(hand.position, hand.forward, out windowHit, interactionDistance))
+            if (Physics.Raycast(hand.position, hand.forward, out windowHit, interactionDistance, windowRaycastLayer))
             {
                 if (windowHit.collider == windowCollider)
                 {
-                    Vector3 windowHitPoint = windowHit.point;
                     RaycastHit interactableHit;
-                    if (Physics.Raycast(windowHitPoint, hand.forward, out interactableHit, interactionDistance))
+                    if (Physics.Raycast(hand.position, hand.forward, out interactableHit, interactionDistance,  interactionsRaycastLayer))
                     {
+                        Debug.LogWarning(interactableHit.collider.name);  
                         InteractableBase interactable = interactableHit.collider.GetComponent<InteractableBase>();
                         if (interactable)
                         {
