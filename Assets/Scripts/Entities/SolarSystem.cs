@@ -28,7 +28,7 @@ namespace Entities
             if (player != null && planets.Length > 2)
             {
                 Vector3 tmpPos = planets[2].transform.position;
-                tmpPos.x += 100.0f;
+                tmpPos.x += 100.0f*transform.localScale.x;
                 player.transform.position = tmpPos;
             }
             

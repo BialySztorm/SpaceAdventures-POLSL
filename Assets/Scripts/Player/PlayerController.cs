@@ -5,6 +5,7 @@ using Unity.Tutorials.Core.Editor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Localization;
+using UnityEngine.Serialization;
 
 namespace Player
 {
@@ -13,10 +14,13 @@ namespace Player
         [SerializeField] private InputActionAsset pcInputActions;
         [SerializeField] private InputActionAsset xrInputActions;
         [SerializeField] private bool isXR = true;
-        [SerializeField] private float speed = 1.0f;
+        [SerializeField] private float acceleration = 0.1f;
+        [SerializeField] private float maxSpeed = 10.0f;
         [SerializeField] private Transform leftHand;
         [SerializeField] private Transform rightHand;
         [SerializeField] private MeshCollider windowCollider;
+        
+        private float _currentSpeed = 0.0f;
         
         private InputActionMap XRILeftHandMap;
         private InputActionMap XRILeftHandInteractionMap;
@@ -142,16 +146,15 @@ namespace Player
         
         private void Move(float direction)
         {
-            float moveSpeed = speed * direction * Time.deltaTime;
-            transform.position += transform.forward * moveSpeed;
+            _currentSpeed = Mathf.Clamp(_currentSpeed + direction * acceleration, 0f, maxSpeed);
+            transform.position += transform.forward * _currentSpeed;
         }
         
         private void Rotate(Vector2 leftStick, Vector2 rightStick)
         {
-            // Rotate the player based on the left stick
-            float pitch = -(leftStick.y + rightStick.y);
-            float yaw = rightStick.x;
-            float roll = -leftStick.x;
+            float pitch = -rightStick.y; // left and right
+            float yaw = rightStick.x; // up and down
+            float roll = -leftStick.x; // rotation
             Vector3 rotation = new Vector3(pitch, yaw, roll);
             transform.Rotate(rotation);
         }
