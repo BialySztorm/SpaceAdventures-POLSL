@@ -58,6 +58,54 @@ MonoBehaviour:
     m_Localized: Sun
     m_Metadata:
       m_Items: []
+  - m_Id: 1930931116421120
+    m_Localized: "Moon\t"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1930994563657728
+    m_Localized: Phobos
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1931051601997824
+    m_Localized: Deimos
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1938692390760448
+    m_Localized: Next
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1932838509719552
+    m_Localized: 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1933004184727552
+    m_Localized: 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1938899656486912
+    m_Localized: 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1938977808953344
+    m_Localized: 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1939120314626048
+    m_Localized: 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1939150534586368
+    m_Localized: 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1939176841261056
+    m_Localized: 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1939216771035136
+    m_Localized: 1
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
