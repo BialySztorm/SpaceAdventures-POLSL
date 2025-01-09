@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Anchor
+  - StarSystem
   layers:
   - Default
   - TransparentFX
