@@ -66,15 +66,14 @@ namespace Player
 
         public void CompassUpdate(Transform playerTransform,float compassAngle = 180f, float activationDistance = 50f)
         {
-            // TODO Planet Position on compass
             Vector3 directionToPlanet = originalPlanetTransform.position - playerTransform.position;
             
             Vector3 localDirection = playerTransform.InverseTransformDirection(directionToPlanet.normalized);
-            float yaw = Mathf.Atan2(localDirection.x, localDirection.z) * Mathf.Rad2Deg; // Kąt poziomy
-            float pitch = Mathf.Asin(localDirection.y) * Mathf.Rad2Deg;                  // Kąt pionowy
+            float yaw = Mathf.Atan2(localDirection.x, localDirection.z) * Mathf.Rad2Deg;
+            float pitch = Mathf.Asin(localDirection.y) * Mathf.Rad2Deg;
             
-            if(mapPlanet.name == "Sun")
-                Debug.Log($"Yaw: {yaw}, Pitch: {pitch}");
+            // if(mapPlanet.name == "Sun")
+            //     Debug.Log($"Yaw: {yaw}, Pitch: {pitch}");
             
             float maxPitch = compassAngle / 2f;
             pitch = Mathf.Clamp(pitch, -maxPitch, maxPitch);
@@ -94,7 +93,23 @@ namespace Player
                 foreach (var satellite in mapSatellites)
                 {
                     satellite.SetActive(true);
-                    // TODO Satellite Position on compass
+                    Vector3 directionToSatellite = originalSatelliteTransforms[satellite.name].position - playerTransform.position;
+                    
+                    localDirection = playerTransform.InverseTransformDirection(directionToSatellite.normalized);
+                    float satelliteYaw = Mathf.Atan2(localDirection.x, localDirection.z) * Mathf.Rad2Deg;
+                    float satellitePitch = Mathf.Asin(localDirection.y) * Mathf.Rad2Deg;
+                    
+                    satellitePitch = Mathf.Clamp(satellitePitch, -maxPitch, maxPitch);
+                    satelliteYaw = Mathf.Clamp(satelliteYaw, -maxPitch, maxPitch);
+                    
+                    float satellitePitchRadians = satellitePitch * Mathf.Deg2Rad;
+                    float satelliteYawRadians = satelliteYaw * Mathf.Deg2Rad;
+                    
+                    x = _compassSize * Mathf.Cos(satellitePitchRadians) * Mathf.Sin(satelliteYawRadians);
+                    y = _compassSize * Mathf.Cos(satellitePitchRadians) * Mathf.Cos(satelliteYawRadians);
+                    z = _compassSize * Mathf.Sin(satellitePitchRadians);
+                    
+                    satellite.transform.localPosition = new Vector3(x, y, z);
                 }
             }
             else
