@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Entities;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Player
@@ -8,9 +9,11 @@ namespace Player
     {
         private GameObject mapPlanet { get; set; }
         private List<GameObject> mapSatellites { get; set; }
-        private Vector3 OriginalPlanetLocation { get; set; }
-        private Dictionary<string, Vector3> OriginalSatelliteLocations { get; set; }
+        private Transform originalPlanetTransform { get; set; }
+        private Dictionary<string, Transform> originalSatelliteTransforms { get; set; }
 
+        private float _compassSize = 0.1f;
+        
         private void AddMesh(GameObject item, GameObject mapItem)
         {
             MeshFilter meshFilter = item.GetComponent<MeshFilter>();
@@ -32,15 +35,17 @@ namespace Player
 
         public PlanetBody(GameObject planet, Transform parent)
         {
+            _compassSize = parent.localScale.x*0.5f;
+            
             mapPlanet = new GameObject(planet.name);
             mapPlanet.transform.SetParent(parent);
             AddMesh(planet, mapPlanet);
-            OriginalPlanetLocation = planet.transform.position;
+            originalPlanetTransform = planet.transform;
             mapPlanet.transform.localPosition = Vector3.zero;
             mapPlanet.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
             
             mapSatellites = new List<GameObject>();
-            OriginalSatelliteLocations = new Dictionary<string, Vector3>();
+            originalSatelliteTransforms= new Dictionary<string, Transform>();
 
             foreach (Transform child in planet.transform)
             {
@@ -54,33 +59,49 @@ namespace Player
                     mapSatellite.transform.localPosition = Vector3.zero;
                     mapSatellite.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
                     mapSatellites.Add(mapSatellite);
-                    OriginalSatelliteLocations[child.gameObject.name] = child.transform.position;
-                }
-            }
-        }
-
-        public void UpdatePosition(Vector3 newPlanetPosition, float activationDistance)
-        {
-            mapPlanet.transform.position = newPlanetPosition;
-
-            foreach (var satellite in mapSatellites)
-            {
-                float distanceToOriginal = Vector3.Distance(newPlanetPosition, OriginalSatelliteLocations[satellite.name]);
-                if (distanceToOriginal <= activationDistance)
-                {
-                    satellite.SetActive(true);
-                    satellite.transform.position = OriginalSatelliteLocations[satellite.name] + (newPlanetPosition - OriginalPlanetLocation);
-                }
-                else
-                {
-                    satellite.SetActive(false);
+                    originalSatelliteTransforms[child.gameObject.name] = child.transform;
                 }
             }
         }
 
         public void CompassUpdate(Transform playerTransform,float compassAngle = 180f, float activationDistance = 50f)
         {
+            // TODO Planet Position on compass
+            Vector3 directionToPlanet = originalPlanetTransform.position - playerTransform.position;
             
+            Vector3 localDirection = playerTransform.InverseTransformDirection(directionToPlanet.normalized);
+            float yaw = Mathf.Atan2(localDirection.x, localDirection.z) * Mathf.Rad2Deg; // Kąt poziomy
+            float pitch = Mathf.Asin(localDirection.y) * Mathf.Rad2Deg;                  // Kąt pionowy
+            
+            if(mapPlanet.name == "Sun")
+                Debug.Log($"Yaw: {yaw}, Pitch: {pitch}");
+            
+            float maxPitch = compassAngle / 2f;
+            pitch = Mathf.Clamp(pitch, -maxPitch, maxPitch);
+            yaw = Mathf.Clamp(yaw, -maxPitch, maxPitch);
+
+            float pitchRadians = pitch * Mathf.Deg2Rad;
+            float yawRadians = yaw * Mathf.Deg2Rad;
+
+            float x = _compassSize * Mathf.Cos(pitchRadians) * Mathf.Sin(yawRadians);
+            float y = _compassSize * Mathf.Cos(pitchRadians) * Mathf.Cos(yawRadians);
+            float z = _compassSize * Mathf.Sin(pitchRadians);
+
+            mapPlanet.transform.localPosition = new Vector3(x, y, z);
+
+            if(Vector3.Distance(playerTransform.position, originalPlanetTransform.position) <= activationDistance)
+            {
+                foreach (var satellite in mapSatellites)
+                {
+                    satellite.SetActive(true);
+                    // TODO Satellite Position on compass
+                }
+            }
+            else
+            {
+                foreach (var satellite in mapSatellites)
+                    satellite.SetActive(false);
+            }
         }
     }
 }

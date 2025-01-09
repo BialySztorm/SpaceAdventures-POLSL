@@ -6,6 +6,7 @@ namespace Player
 {
     public class CompassController : MonoBehaviour
     {
+        [SerializeField] float compassAngle = 120f;
         private List<PlanetBody> _planets = new List<PlanetBody>();
         
         // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -26,7 +27,7 @@ namespace Player
         void Update()
         {
             foreach (PlanetBody planet in _planets)
-                planet.CompassUpdate(transform);
+                planet.CompassUpdate(transform, compassAngle);
         }
     }
 }
