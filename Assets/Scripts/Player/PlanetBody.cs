@@ -70,22 +70,22 @@ namespace Player
             Vector3 directionToPlanet = originalPlanetTransform.position - playerTransform.position;
             
             Vector3 localDirection = playerTransform.InverseTransformDirection(directionToPlanet.normalized);
-            float pitch = Mathf.Atan2(localDirection.x, localDirection.z) * Mathf.Rad2Deg;
-            float yaw = -Mathf.Asin(localDirection.y) * Mathf.Rad2Deg;
+            float yaw = Mathf.Atan2(localDirection.x, localDirection.z) * Mathf.Rad2Deg;
+            float pitch = -Mathf.Asin(localDirection.y) * Mathf.Rad2Deg;
             
             // if(mapPlanet.name == "Sun")
             //     Debug.Log($"Yaw: {yaw}, Pitch: {pitch}");
             
             float maxPitch = compassAngle / 2f;
-            pitch = Mathf.Clamp(pitch, -maxPitch, maxPitch);
             yaw = Mathf.Clamp(yaw, -maxPitch, maxPitch);
+            pitch = Mathf.Clamp(pitch, -maxPitch, maxPitch);
 
-            float pitchRadians = pitch * Mathf.Deg2Rad;
             float yawRadians = yaw * Mathf.Deg2Rad;
+            float pitchRadians = pitch * Mathf.Deg2Rad;
 
-            float x = _compassSize * Mathf.Cos(pitchRadians) * Mathf.Sin(yawRadians);
-            float y = _compassSize * Mathf.Cos(pitchRadians) * Mathf.Cos(yawRadians);
-            float z = _compassSize * Mathf.Sin(pitchRadians);
+            float x = _compassSize * Mathf.Cos(yawRadians) * Mathf.Sin(pitchRadians);
+            float y = _compassSize * Mathf.Cos(yawRadians) * Mathf.Cos(pitchRadians);
+            float z = _compassSize * Mathf.Sin(yawRadians);
 
             mapPlanet.transform.localPosition = new Vector3(x, y, z);
 
