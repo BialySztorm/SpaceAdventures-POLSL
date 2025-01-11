@@ -21,8 +21,10 @@ namespace Player
                 return;
             xrOrigin = xRRig.GetComponent<XROrigin>();
             initialPosition = transform.position;
-            if (BoundarieSphere != null)
-                distanceToCancel = BoundarieSphere.GetComponent<SphereCollider>().radius;
+            if (BoundarieSphere)
+                distanceToCancel = BoundarieSphere.GetComponent<SphereCollider>().radius * BoundarieSphere.transform.parent.transform.localScale.x;
+            else
+                Debug.LogWarning("BoundarieSphere not set");
         }
         
         void Update()

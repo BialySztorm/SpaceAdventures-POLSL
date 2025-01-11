@@ -1,4 +1,5 @@
-﻿using Unity.Mathematics;
+﻿using System;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Entities
@@ -7,9 +8,6 @@ namespace Entities
     {
         private const double Deg2Rad = math.PI / 180.0;
         private const double EpochJ2000 = 2451545.0; // Reference epoch
-        
-        [SerializeField]
-        private float positionScale = 100000.0f;
 
         // Default orbital parameters for the Moon
         [SerializeField, Tooltip("Semi-major axis in km to power of 6")]
@@ -31,9 +29,15 @@ namespace Entities
         private double _rotationPeriod = 27.3217;
         [SerializeField, Tooltip("Rotation axis inclination in degrees")]
         private double _rotationAxisInclination = 6.68;
+        
+        private Planet _planet;
+        private Vector3 _inSpacePosition;
+        private Quaternion _inSpaceRotation;
+        
 
         private void Awake()
         {
+            _planet = GetComponentInParent<Planet>();
             // Transform default values
             _semiMajorAxis = _semiMajorAxis * math.pow(10.0, 6.0); // Convert to km
             _inclination = _inclination * Deg2Rad; // Convert to radians
@@ -41,7 +45,19 @@ namespace Entities
             _argumentOfPerihelion = _argumentOfPerihelion * Deg2Rad; // Convert to radians
             _meanLongitude = _meanLongitude * Deg2Rad; // Convert to radians
         }
+
+        private void LateUpdate()
+        {
+            transform.position = _inSpacePosition + _planet.transform.position;
+            transform.rotation = _inSpaceRotation;
+        }
         
+        public void SetInSpaceTransform(Vector3 position, Quaternion rotation)
+        {
+            _inSpacePosition = position;
+            _inSpaceRotation = rotation;
+        }
+
         public Vector3 GetCurrentPosition(double julianDate)
         {
             double T = (julianDate - EpochJ2000) / 36525.0; // Julian centuries from J2000.0
@@ -61,10 +77,10 @@ namespace Entities
 
             // Calculate heliocentric coordinates
             double x = r * (math.cos(_longitudeOfAscendingNode) * math.cos(nu + _argumentOfPerihelion) - math.sin(_longitudeOfAscendingNode) * math.sin(nu + _argumentOfPerihelion) * math.cos(_inclination));
-            double y = r * (math.sin(_longitudeOfAscendingNode) * math.cos(nu + _argumentOfPerihelion) + math.cos(_longitudeOfAscendingNode) * math.sin(nu + _argumentOfPerihelion) * math.cos(_inclination));
-            double z = r * (math.sin(nu + _argumentOfPerihelion) * math.sin(_inclination));
+            double z = r * (math.sin(_longitudeOfAscendingNode) * math.cos(nu + _argumentOfPerihelion) + math.cos(_longitudeOfAscendingNode) * math.sin(nu + _argumentOfPerihelion) * math.cos(_inclination));
+            double y = r * (math.sin(nu + _argumentOfPerihelion) * math.sin(_inclination));
 
-            return new Vector3((float)x / positionScale, (float)y / positionScale, (float)z / positionScale);
+            return new Vector3((float)x, (float)y, (float)z);
         }
 
         public Quaternion GetCurrentRotation(double julianDate)

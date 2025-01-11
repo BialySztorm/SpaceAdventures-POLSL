@@ -5,6 +5,7 @@ using Unity.Tutorials.Core.Editor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Localization;
+using UnityEngine.Serialization;
 
 namespace Player
 {
@@ -13,10 +14,15 @@ namespace Player
         [SerializeField] private InputActionAsset pcInputActions;
         [SerializeField] private InputActionAsset xrInputActions;
         [SerializeField] private bool isXR = true;
-        [SerializeField] private float speed = 1.0f;
+        [SerializeField] private float acceleration = 0.1f;
+        [SerializeField] private float maxSpeed = 10.0f;
         [SerializeField] private Transform leftHand;
         [SerializeField] private Transform rightHand;
         [SerializeField] private MeshCollider windowCollider;
+        [SerializeField] private LayerMask windowRaycastLayer;
+        [SerializeField] private LayerMask interactionsRaycastLayer;
+        
+        private float _currentSpeed = 0.0f;
         
         private InputActionMap XRILeftHandMap;
         private InputActionMap XRILeftHandInteractionMap;
@@ -119,7 +125,7 @@ namespace Player
                 Rotate(leftStick, rightStick);
                 float brakeVal = XRILeftHandInteractionMap["Select Value"].ReadValue<float>();
                 float gasVal = XRIRightHandInteractionMap["Select Value"].ReadValue<float>();
-                Move(gasVal - brakeVal);
+                Move(gasVal - brakeVal*2f);
                 
                 // * Interaction
                 string interactableName = string.Empty;
@@ -142,30 +148,36 @@ namespace Player
         
         private void Move(float direction)
         {
-            float moveSpeed = speed * direction * Time.deltaTime;
-            transform.position += transform.forward * moveSpeed;
+            _currentSpeed = Mathf.Clamp(_currentSpeed + direction * acceleration, 0f, maxSpeed);
+            transform.position += transform.forward * _currentSpeed;
         }
         
         private void Rotate(Vector2 leftStick, Vector2 rightStick)
         {
-            // Rotate the player based on the left stick
-            float pitch = -(leftStick.y + rightStick.y);
-            float yaw = rightStick.x;
-            float roll = -leftStick.x;
+            float pitch = -rightStick.y; // left and right
+            float yaw = rightStick.x; // up and down
+            float roll = -leftStick.x; // rotation
             Vector3 rotation = new Vector3(pitch, yaw, roll);
             transform.Rotate(rotation);
         }
         
         private string CheckForInteractable(Transform hand, Renderer pokePointRenderer, Renderer lineVisualRenderer)
         {
+
+            if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            {
+                pokePointRenderer.material.SetColor("_RimColor", _defaultColor);
+                lineVisualRenderer.material.SetColor("_TintColor", _defaultColor);
+                return string.Empty;
+            }
+
             RaycastHit windowHit;
-            if (Physics.Raycast(hand.position, hand.forward, out windowHit, interactionDistance))
+            if (Physics.Raycast(hand.position, hand.forward, out windowHit, interactionDistance, windowRaycastLayer))
             {
                 if (windowHit.collider == windowCollider)
                 {
-                    Vector3 windowHitPoint = windowHit.point;
                     RaycastHit interactableHit;
-                    if (Physics.Raycast(windowHitPoint, hand.forward, out interactableHit, interactionDistance))
+                    if (Physics.Raycast(hand.position, hand.forward, out interactableHit, interactionDistance,  interactionsRaycastLayer))
                     {
                         InteractableBase interactable = interactableHit.collider.GetComponent<InteractableBase>();
                         if (interactable)
@@ -191,6 +203,13 @@ namespace Player
             infoPanelRef.transform.position = hand.position + hand.forward * 0.2f;
             infoPanelRef.transform.LookAt(hand);
             infoPanelRef.transform.Rotate(0, 180, 0);
+            Vector3 localPos = infoPanelRef.transform.localPosition;
+            localPos.y -= 0.2f;
+            infoPanelRef.transform.localPosition = localPos;
+            Vector3 localEuler = infoPanelRef.transform.localEulerAngles;
+            localEuler.z = 0f;
+            infoPanelRef.transform.localEulerAngles = localEuler;
+            
             StepManager stepManagerRef = infoPanelRef.transform.Find("CoachingCardRoot").GetComponent<StepManager>();
             _localizedEntities.TableEntryReference = hit + ".name";
             stepManagerRef.AddStep(_localizedEntities.GetLocalizedString());
