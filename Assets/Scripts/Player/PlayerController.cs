@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Entities;
 using UI;
 using Unity.Tutorials.Core.Editor;
@@ -40,8 +41,7 @@ namespace Player
         private Color _defaultColor;
 
         private GameObject _currentInfoPanel;
-        private LocalizedString _localizedEntities = new LocalizedString();
-        private LocalizedString _localizedMenu = new LocalizedString();
+        TableEntryFetcher fetcher = new TableEntryFetcher();
         
 
         private void Awake()
@@ -85,8 +85,7 @@ namespace Player
                 PCMap = pcInputActions.FindActionMap("Player");
             }
             
-            _localizedEntities.TableReference = "Entities";
-            _localizedMenu.TableReference = "UI";
+            fetcher.SetTable("Entities");
         }
 
         private void OnEnable()
@@ -209,11 +208,17 @@ namespace Player
             Vector3 localEuler = infoPanelRef.transform.localEulerAngles;
             localEuler.z = 0f;
             infoPanelRef.transform.localEulerAngles = localEuler;
-            
+
             StepManager stepManagerRef = infoPanelRef.transform.Find("CoachingCardRoot").GetComponent<StepManager>();
-            _localizedEntities.TableEntryReference = hit + ".name";
-            stepManagerRef.AddStep(_localizedEntities.GetLocalizedString());
-            stepManagerRef.AddStep("");
+            string btnText = fetcher.GetTableEntry("next");
+            int entryCount = fetcher.GetTableEntryCountWith(hit,".category");
+            
+            for (int i = 1; i <= entryCount; i++)
+            {
+                string category = fetcher.GetTableEntry(hit + ".c" + i + ".category");
+                string description = fetcher.GetTableEntry(hit + ".c" + i + ".description");
+                stepManagerRef.AddStep(btnText, category, description);
+            }
             
             _currentInfoPanel = infoPanelRef;
         }

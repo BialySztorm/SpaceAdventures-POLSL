@@ -30,12 +30,14 @@ namespace UI
 
         int m_CurrentStepIndex = 0;
 
-        public void AddStep(string data)
+        public void AddStep(string btnText, string category, string description)
         {
             GameObject newStep = Instantiate(m_StepObject, transform);
             newStep.name = $"Card {m_StepList.Count + 1}";
             newStep.transform.SetSiblingIndex(m_StepIndicator.GetSiblingIndex()-1);
-            newStep.GetComponentInChildren<TextMeshProUGUI>().text = data;
+            TextMeshProUGUI[] texts = newStep.GetComponentsInChildren<TextMeshProUGUI>();
+            texts[0].text = category;
+            texts[1].text = description;
             GameObject newDot = Instantiate(m_DotObject, m_StepIndicator);
             newDot.name = $"Dot {m_StepList.Count + 1}";
             GameObject activeDot = newDot.transform.GetChild(0).gameObject;
@@ -45,8 +47,12 @@ namespace UI
                 newStep.SetActive(false);
                 activeDot.SetActive(false);
             }
+            else
+            {
+                m_StepButtonTextField.text = btnText;
+            }
 
-            m_StepList.Add(new Step { stepObject = newStep, buttonText = $"Step {m_StepList.Count + 1}" });
+            m_StepList.Add(new Step { stepObject = newStep, buttonText = btnText });
         }
 
         public void Next()
