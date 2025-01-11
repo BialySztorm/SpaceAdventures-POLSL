@@ -1,9 +1,8 @@
-using System.Collections.Generic;
-using UnityEditor.Localization;
+using System;
+using Entities;
 using UnityEngine;
 using UnityEngine.Localization;
-using UnityEngine.Localization.Tables;
-using UnityEngine.Localization.Settings;
+
 
 namespace Player
 {
@@ -16,40 +15,14 @@ namespace Player
             _tableName = tableName;
             _localizedTable.TableReference = tableName;
         }
-        public List<string> GetTableEntryKeysStartingWith(string prefix)
+
+        public int GetTableEntityCountWith(string entity = "")
         {
-            var table = LocalizationSettings.StringDatabase.GetTable(_tableName);
-            var collection = LocalizationEditorSettings.GetStringTableCollection(_tableName);
-            var entries = new List<string>();
-
-            foreach (var entry in table)
+            if (Enum.TryParse(typeof(EntitiesTable), entity, out var result))
             {
-                var key = collection.SharedData.GetKey(entry.Key);
-                if (key.StartsWith(prefix))
-                {
-                    entries.Add(key);
-                }
+                return (int)result;
             }
-
-            return entries;
-        }
-
-        public int GetTableEntryCountWith(string prefix = "", string suffix= "")
-        {
-            var table = LocalizationSettings.StringDatabase.GetTable(_tableName);
-            var collection = LocalizationEditorSettings.GetStringTableCollection(_tableName);
-            var count = 0;
-
-            foreach (var entry in table)
-            {
-                var key = collection.SharedData.GetKey(entry.Key);
-                if (key.StartsWith(prefix) && key.EndsWith(suffix))
-                {
-                    count++;
-                }
-            }
-
-            return count;
+            throw new ArgumentException("Invalid string value");
         }
         
         public string GetTableEntry(string key)

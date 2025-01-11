@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
 using Entities;
 using UI;
-using Unity.Tutorials.Core.Editor;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Localization;
-using UnityEngine.Serialization;
 
 namespace Player
 {
@@ -129,13 +124,13 @@ namespace Player
                 // * Interaction
                 string interactableName = string.Empty;
                 interactableName = CheckForInteractable(leftHand.transform, _leftPokePointRenderer, _leftLineVisualRenderer);
-                if (interactableName.IsNotNullOrEmpty() && XRILeftHandInteractionMap["Activate"].triggered)
+                if (interactableName != string.Empty && XRILeftHandInteractionMap["Activate"].triggered)
                 {
                     // TODO Interact with object
                     Interact(interactableName, leftHand);
                 }
                 interactableName = CheckForInteractable(rightHand.transform, _rightPokePointRenderer, _rightLineVisualRenderer);
-                if (interactableName.IsNotNullOrEmpty()  && XRIRightHandInteractionMap["Activate"].triggered)
+                if (interactableName != string.Empty  && XRIRightHandInteractionMap["Activate"].triggered)
                 {
                     Interact(interactableName, rightHand);
                 }
@@ -211,7 +206,7 @@ namespace Player
 
             StepManager stepManagerRef = infoPanelRef.transform.Find("CoachingCardRoot").GetComponent<StepManager>();
             string btnText = fetcher.GetTableEntry("next");
-            int entryCount = fetcher.GetTableEntryCountWith(hit,".category");
+            int entryCount = fetcher.GetTableEntityCountWith(hit);
             
             for (int i = 1; i <= entryCount; i++)
             {
