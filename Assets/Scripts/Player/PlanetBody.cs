@@ -70,8 +70,8 @@ namespace Player
             Vector3 directionToPlanet = originalPlanetTransform.position - playerTransform.position;
             
             Vector3 localDirection = playerTransform.InverseTransformDirection(directionToPlanet.normalized);
-            float yaw = Mathf.Atan2(localDirection.x, localDirection.z) * Mathf.Rad2Deg;
-            float pitch = Mathf.Asin(localDirection.y) * Mathf.Rad2Deg;
+            float pitch = Mathf.Atan2(localDirection.x, localDirection.z) * Mathf.Rad2Deg;
+            float yaw = -Mathf.Asin(localDirection.y) * Mathf.Rad2Deg;
             
             // if(mapPlanet.name == "Sun")
             //     Debug.Log($"Yaw: {yaw}, Pitch: {pitch}");
@@ -97,8 +97,8 @@ namespace Player
                     Vector3 directionToSatellite = originalSatelliteTransforms[satellite.name].position - playerTransform.position;
                     
                     localDirection = playerTransform.InverseTransformDirection(directionToSatellite.normalized);
-                    float satelliteYaw = Mathf.Atan2(localDirection.x, localDirection.z) * Mathf.Rad2Deg;
-                    float satellitePitch = Mathf.Asin(localDirection.y) * Mathf.Rad2Deg;
+                    float satellitePitch = Mathf.Atan2(localDirection.x, localDirection.z) * Mathf.Rad2Deg;
+                    float satelliteYaw = -Mathf.Asin(localDirection.y) * Mathf.Rad2Deg;
                     
                     satellitePitch = Mathf.Clamp(satellitePitch, -maxPitch, maxPitch);
                     satelliteYaw = Mathf.Clamp(satelliteYaw, -maxPitch, maxPitch);
