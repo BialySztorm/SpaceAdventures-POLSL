@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Entities;
 using Unity.Mathematics;
 using UnityEngine;
@@ -33,16 +33,17 @@ namespace Player
             }
         }
 
-        public PlanetBody(GameObject planet, Transform parent)
+        public PlanetBody(GameObject planet, Transform parent, float compassSize)
         {
-            _compassSize = parent.localScale.x*0.5f;
+            _compassSize = compassSize;
+            float planetScale = 0.1f / parent.transform.localScale.x;
             
             mapPlanet = new GameObject(planet.name);
             mapPlanet.transform.SetParent(parent);
             AddMesh(planet, mapPlanet);
             originalPlanetTransform = planet.transform;
             mapPlanet.transform.localPosition = Vector3.zero;
-            mapPlanet.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+            mapPlanet.transform.localScale = new Vector3(planetScale, planetScale, planetScale);
             
             mapSatellites = new List<GameObject>();
             originalSatelliteTransforms= new Dictionary<string, Transform>();
@@ -57,7 +58,7 @@ namespace Player
                     AddMesh(child.gameObject, mapSatellite);
                     mapSatellite.SetActive(false);
                     mapSatellite.transform.localPosition = Vector3.zero;
-                    mapSatellite.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+                    mapSatellite.transform.localScale = new Vector3(planetScale, planetScale, planetScale);
                     mapSatellites.Add(mapSatellite);
                     originalSatelliteTransforms[child.gameObject.name] = child.transform;
                 }
