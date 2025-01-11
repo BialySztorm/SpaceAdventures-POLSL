@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Entities;
 using Unity.Mathematics;
 using UnityEngine;
@@ -33,16 +33,17 @@ namespace Player
             }
         }
 
-        public PlanetBody(GameObject planet, Transform parent)
+        public PlanetBody(GameObject planet, Transform parent, float compassSize)
         {
-            _compassSize = parent.localScale.x*0.5f;
+            _compassSize = compassSize;
+            float planetScale = 0.1f / parent.transform.localScale.x;
             
             mapPlanet = new GameObject(planet.name);
             mapPlanet.transform.SetParent(parent);
             AddMesh(planet, mapPlanet);
             originalPlanetTransform = planet.transform;
             mapPlanet.transform.localPosition = Vector3.zero;
-            mapPlanet.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+            mapPlanet.transform.localScale = new Vector3(planetScale, planetScale, planetScale);
             
             mapSatellites = new List<GameObject>();
             originalSatelliteTransforms= new Dictionary<string, Transform>();
@@ -57,7 +58,7 @@ namespace Player
                     AddMesh(child.gameObject, mapSatellite);
                     mapSatellite.SetActive(false);
                     mapSatellite.transform.localPosition = Vector3.zero;
-                    mapSatellite.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+                    mapSatellite.transform.localScale = new Vector3(planetScale, planetScale, planetScale);
                     mapSatellites.Add(mapSatellite);
                     originalSatelliteTransforms[child.gameObject.name] = child.transform;
                 }
@@ -70,21 +71,21 @@ namespace Player
             
             Vector3 localDirection = playerTransform.InverseTransformDirection(directionToPlanet.normalized);
             float yaw = Mathf.Atan2(localDirection.x, localDirection.z) * Mathf.Rad2Deg;
-            float pitch = Mathf.Asin(localDirection.y) * Mathf.Rad2Deg;
+            float pitch = -Mathf.Asin(localDirection.y) * Mathf.Rad2Deg;
             
             // if(mapPlanet.name == "Sun")
             //     Debug.Log($"Yaw: {yaw}, Pitch: {pitch}");
             
             float maxPitch = compassAngle / 2f;
-            pitch = Mathf.Clamp(pitch, -maxPitch, maxPitch);
             yaw = Mathf.Clamp(yaw, -maxPitch, maxPitch);
+            pitch = Mathf.Clamp(pitch, -maxPitch, maxPitch);
 
-            float pitchRadians = pitch * Mathf.Deg2Rad;
             float yawRadians = yaw * Mathf.Deg2Rad;
+            float pitchRadians = pitch * Mathf.Deg2Rad;
 
-            float x = _compassSize * Mathf.Cos(pitchRadians) * Mathf.Sin(yawRadians);
-            float y = _compassSize * Mathf.Cos(pitchRadians) * Mathf.Cos(yawRadians);
-            float z = _compassSize * Mathf.Sin(pitchRadians);
+            float x = _compassSize * Mathf.Cos(yawRadians) * Mathf.Sin(pitchRadians);
+            float y = _compassSize * Mathf.Cos(yawRadians) * Mathf.Cos(pitchRadians);
+            float z = _compassSize * Mathf.Sin(yawRadians);
 
             mapPlanet.transform.localPosition = new Vector3(x, y, z);
 
@@ -96,8 +97,8 @@ namespace Player
                     Vector3 directionToSatellite = originalSatelliteTransforms[satellite.name].position - playerTransform.position;
                     
                     localDirection = playerTransform.InverseTransformDirection(directionToSatellite.normalized);
-                    float satelliteYaw = Mathf.Atan2(localDirection.x, localDirection.z) * Mathf.Rad2Deg;
-                    float satellitePitch = Mathf.Asin(localDirection.y) * Mathf.Rad2Deg;
+                    float satellitePitch = Mathf.Atan2(localDirection.x, localDirection.z) * Mathf.Rad2Deg;
+                    float satelliteYaw = -Mathf.Asin(localDirection.y) * Mathf.Rad2Deg;
                     
                     satellitePitch = Mathf.Clamp(satellitePitch, -maxPitch, maxPitch);
                     satelliteYaw = Mathf.Clamp(satelliteYaw, -maxPitch, maxPitch);
