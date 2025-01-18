@@ -118,6 +118,7 @@ MonoBehaviour:
   interactionDistance: 1000
   infoPanel: {fileID: 6865089299896571711, guid: b2e584e8a99f3164f9c3df3065c958ba, type: 3}
   menuPanel: {fileID: 6181058075839259507, guid: d1aa13edf0ff03a4f963a2a32759eaf6, type: 3}
+  audioManager: {fileID: 1546353483670729741}
 --- !u!1001 &4946121129073199888
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -265,6 +266,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c21c9e8b65b66c40834501d2aedda9c, type: 3}
+--- !u!114 &1546353483670729741 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4628349387698458014, guid: 9c21c9e8b65b66c40834501d2aedda9c, type: 3}
+  m_PrefabInstance: {fileID: 6147118212716198291}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0658ee40ee6b4338a48ed30daeb05cc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!64 &3818099857313962249 stripped
 MeshCollider:
   m_CorrespondingSourceObject: {fileID: 7039811098524213402, guid: 9c21c9e8b65b66c40834501d2aedda9c, type: 3}

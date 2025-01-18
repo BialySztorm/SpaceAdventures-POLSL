@@ -38,6 +38,8 @@ namespace Player
         private GameObject _currentInfoPanel;
         TableEntryFetcher fetcher = new TableEntryFetcher();
         
+        [SerializeField] private AudioManager audioManager;
+        
 
         private void Awake()
         {
@@ -81,6 +83,14 @@ namespace Player
             }
             
             fetcher.SetTable("Entities");
+        }
+        
+        private void Start()
+        {
+            if(audioManager)
+                audioManager.PlayMusic();
+            else
+                Debug.LogError("AudioManager not found");
         }
 
         private void OnEnable()
@@ -126,12 +136,13 @@ namespace Player
                 interactableName = CheckForInteractable(leftHand.transform, _leftPokePointRenderer, _leftLineVisualRenderer);
                 if (interactableName != string.Empty && XRILeftHandInteractionMap["Activate"].triggered)
                 {
-                    // TODO Interact with object
+                    audioManager.PlayInteractionSfx();
                     Interact(interactableName, leftHand);
                 }
                 interactableName = CheckForInteractable(rightHand.transform, _rightPokePointRenderer, _rightLineVisualRenderer);
                 if (interactableName != string.Empty  && XRIRightHandInteractionMap["Activate"].triggered)
                 {
+                    audioManager.PlayInteractionSfx();
                     Interact(interactableName, rightHand);
                 }
             }
